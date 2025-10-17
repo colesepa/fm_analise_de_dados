@@ -1,0 +1,173 @@
+
+Itens que podem ser retirados:
+
+Bloqueios/90
+Alivios/90
+Erros que originaram gols/90
+
+Acho que pode suprimir os Gols com penaltis e deixar só os npgol
+
+
+['id_unico',
+ 'id_temporada',
+ 'nome',
+ 'nacionalidade',
+ 'idade',
+ 'altura',
+ 'peso',
+ 'posicao',
+ 'posicao_analise',
+ 'pe_preferido',
+ 'personalidade',
+ 'clube_atual',
+ 'divisao_atual',
+ 'salario',
+ 'salario_anual',
+ 'final_do_contrato',
+ 'preco_minimo',
+ 'preco_maximo',
+ 'partidas_jogadas',
+ 'nota_media',
+ 'homem_do_jogo',
+ 'minutos',
+ 'avaliacao_defensiva',
+ 'qualidade_das_criacoes',
+ 'perigo_das_finalizacoes',
+ 'gols', AQUI
+ 'gols_p90',    AQUI
+ 'gols_esperados', AQUI
+ 'gols_esperados_p90', AQUI
+ 'gols_sem_penaltis', 
+ 'gols_sem_penaltis_p90',
+ 'gols_esperados_sem_penaltis', AQUI
+ 'gols_esperados_sem_penaltis_p90', 
+ 'gols_sem_penaltis_acima_do_esperado', 
+ 'gols_sem_penaltis_por_acoes_ofensivas',
+ 'chutes_de_fora_da_area_p90',
+ 'gols_de_fora_da_area_p100',
+ 'chutes_sem_penaltis_p90',
+ 'chutes_no_gol_sem_penalti_p90',
+ 'gols_esperados_sem_penalti_por_chutes_sem_penalti',
+ 'taxa_de_chutes_no_gol_p100',
+ 'taxa_de_conversao_de_gols_p100',
+ 'conversao_de_penaltis_p100',
+ 'participacoes_em_gols_sem_penaltis_p90',
+ 'participacoes_esperadas_em_gols_sem_penaltis_p90',
+ 'minutos_para_marcar_gols_sem_penaltis', 
+ 'minutos_para_participar_gols_sem_penaltis', AQUI
+ 'assistencias',
+ 'assistencias_p90',
+ 'assistencias_esperadas',
+ 'assistencias_esperadas_p90',
+ 'passes_tentados_p90',
+ 'passes_completados_p90',
+ 'acerto_de_passes_p100',
+ 'passes_decisivos_p90',
+ 'passes_longos_p90',
+ 'cruzamentos_tentados_p90',
+ 'cruzamentos_completos_p90',
+ 'cruzamentos_completos_p100',
+ 'grande_chances_criadas_p90',
+ 'oportunidades_criadas_por_acoes_ofensivas',
+ 'assistencias_por_acoes_ofensivas',
+ 'fintas_feitas_p90',
+ 'acoes_ofensivas_p90',
+ 'faltas_sofridas_p90',
+ 'rating_das_acoes_defensivas',
+ 'rating_dos_duelos_no_chao',
+ 'rating_dos_desarmes',
+ 'rating_jogo_aereo',
+ 'pressao_efetiva',
+ 'posse_ganha_por_pressao_feita',
+ 'duelos_no_chao_ganhos_p90',
+ 'acoes_defensivas_completas_p90',
+ 'posse_ganha_p90',
+ 'pressoes_completadas_p90',
+ 'desarmes_feitos_p90',
+ 'cabeceios_ganhos_p90',
+ 'cabeceios_decisivos_p90',
+ 'desarmes_decisivos_p90',
+ 'bloqueios_de_acoes_do_adversario_p90',
+ 'bloqueio_de_chutes_p90',AQUI
+ 'interceptcoes_feitas_p90', 
+ 'alivios_feitos_p90', AQUI
+ 'desarmes_feitos_p100',
+ 'cabeceios_ganhos_p100',
+ 'posse_ganha_por_perdida_p90',
+ 'duelos_no_chao_tentados_p90',
+ 'acoes_defensivas_tentadas_p90',
+ 'disputa_aerea_tentadas_p90',
+ 'desarmes_tentados_p90',
+ 'cabeceios_perdidos_p90',
+ 'pressoes_tentadas_p90',
+ 'posse_perdida_p90',
+ 'faltas_cometidas_p90',
+ 'faltas_por_acoes_defensivas_completas_p90',
+ 'erros_decisivos_p90',
+ 'jogos_sem_sofrer_gols',
+ 'gols_esperados_defendidos_p90',
+ 'sem_sofrer_gols_p90',
+ 'defesas_feitas_p90',
+ 'defesas_dificeis_p90',
+ 'defesas_seguras_p90',
+ 'defesas_desviadas_p90',
+ 'penaltis_defendidos_p100',
+ 'gols_sofridos_p90',
+ 'cartoes_amarelos',
+ 'cartoes_vermelhos',
+ 'impedimentos',
+ 'tiros_de_velocidade_p90'] AQUI
+
+ Estatísticas Avançadas FBREF
+
+ Atacando: 
+	npG
+	Chutes
+	Assitências
+	npxG + xA
+	Criações de jogadas de gol
+
+Em posse :
+	Passes Tentadas
+	Passes Completos
+	Passes Progressivos
+	Condução Progressiva
+
+Defendendo;
+	Desarmes
+	Interceptações
+	Bloqueios
+	Alívios
+
+
+Estatístícas Avançadas McLachAp
+
+Atacando:
+	Criação propria de chances
+	npxG
+	npxG/chute
+	npG
+	Chutes sem penalti
+	Chutes certos/Chutes no gol
+	Passes certos
+	Assitencias
+	xA
+	Interceptações + Desarmes
+	Posse Perdia
+	Dribles Certos
+	Carregar a bola
+
+Em posse:
+	Percentual de Passes certos
+	Passes Progressivos
+	Passes Chaves
+	Passes Verticais
+	Gols + Ass
+	Condução Progressiva
+	Dribles certos
+
+Defendendo:
+	Interceptações
+	Desarmes
+	Duelos Aereos vencidos
+	Posse Perdida
