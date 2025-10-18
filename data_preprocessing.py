@@ -28,9 +28,9 @@ def _initialize_dataframe(path:str) -> pd.DataFrame|None:
             df = dados[0]
             return df
         
-    except:
-        raise Exception
-
+    except Exception as e:
+        print(f'Erro: {e}')
+        
 
 def _drop_fm_dataframe_columns(df: pd.DataFrame, columns:list) -> pd.DataFrame:
     
