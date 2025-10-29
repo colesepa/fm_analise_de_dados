@@ -32,7 +32,7 @@ import pandas as pd
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
-df_data = fm_create_dataframe(path='teste_2024.html')
+df_data = fm_create_dataframe(path='italia_novo_2024.html')
 
 # %%
 def set_reputation(divisao):
@@ -46,12 +46,14 @@ def set_reputation(divisao):
     ligas_cadastradas = list(df['nome'].unique())
     
     if divisao in ligas_cadastradas:
-        return df.loc[df['nome'] == divisao, 'coeficiente'].iloc[0]
+        return df.loc[df['nome'] == divisao, 'coeficiente'].iloc[0].round(2)
     
 # %%
 df_data['coef'] = df_data['divisao'].apply(set_reputation)
 # %%
 df_data[['nome', 'divisao','coef']]
 # %%
+temp = df_data[["divisao", "coef"]].drop_duplicates().reset_index(drop=True)
+temp
 
-
+# %%
