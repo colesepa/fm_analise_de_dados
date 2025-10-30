@@ -1,6 +1,8 @@
 import pandas as pd
 import re
 import data_manipulation as dm
+import json
+import numpy as np
 
 # def _initialize_fm_dataframe(path:str|None = None) -> pd.DataFrame:
     
@@ -108,6 +110,25 @@ def _add_custom_metrics_columns(df:pd.DataFrame) -> pd.DataFrame:
     df = dm.fm_create_new_parameters(df)
     
     return df
+
+def _set_reputation(df:pd.DataFrame) -> pd.DataFrame:
+    
+    with open('ligas.json', "r", encoding="utf-8") as f:
+        data = json.load(f)
+        
+    df = df    
+    df_ligas = pd.DataFrame(data['ligas'])
+    
+    coef_map = df_ligas.set_index('nome')['coeficiente'].to_dict()
+    ligas_cadastradas = list(df_ligas['nome'].unique())
+    
+    
+    df['coef'] = df['divisao'].apply(lambda x: round(coef_map[x], 2) if x in ligas_cadastradas else np.nan)
+                                    
+    return df
+   
+
+
 
 """def _rename_columns_names(df:pd.DataFrame) -> pd.DataFrame:
 

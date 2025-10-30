@@ -13,7 +13,8 @@ from data_preprocessing import (
                                     _create_new_position_column,
                                     _add_custom_metrics_columns,
                                     _validate_path,
-                                    _get_season
+                                    _get_season,
+                                    _set_reputation
                                     
                                     # _rename_columns_names,
                                     # _reorganize_columns_df,
@@ -156,6 +157,7 @@ def fm_create_dataframe(path:str) -> pd.DataFrame:
     df = _replace_hyphen_with_zero(df)
     
     # 5. Criação de novas colunas e métricas
+    df = _set_reputation(df)
     df = _create_new_position_column(df)
     df = _add_custom_metrics_columns(df)
     

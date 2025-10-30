@@ -33,6 +33,9 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
 df_data = fm_create_dataframe(path='italia_novo_2024.html')
+#%%
+df_data['coef'].describe()
+
 
 # %%
 def set_reputation(divisao):
