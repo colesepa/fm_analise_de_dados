@@ -69,6 +69,7 @@ def fm_create_dataframe(path:str) -> pd.DataFrame:
         '% Dfp',
         'Valor',
         'PC/90',
+        'Base',
         ]
     COLUMNS_FOR_RENAME = {
     '% Passe':'passe_c_p100',
@@ -401,10 +402,10 @@ def fm_extract_positions_from_values(value: str) -> list:
         'MD:C':'Volante',
         'M:C':'Meia-Central',
         'M:D':'Meia-Direito',
-        'M:E':'Meia-Esquerda',
+        'M:E':'Meia-Esquerdo',
         'MO:C':'Meia-Armador',
-        'MO:D':'Meia/Ponta-Direita',
-        'MO:E':'Meia/Ponta-Esquerda',
+        'MO:D':'Ponta-Direito',
+        'MO:E':'Ponta-Esquerdo',
         'PL:C':'Centroavante'}
 
     list_position_return = []
@@ -412,6 +413,9 @@ def fm_extract_positions_from_values(value: str) -> list:
 
     if value == 'GR':
         list_position_return = ['Goleiro']
+        
+    if value in (None, np.nan, '-', 0):
+        list_position_return = []
         
     else:
         exported_position = re.sub(r"\s", '', value).split(',')
