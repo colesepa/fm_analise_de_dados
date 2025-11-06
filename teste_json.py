@@ -100,12 +100,6 @@ for row in x_df.iloc[:].itertuples(index=False):
     if len(melhor_pos) == 1:
         
         temp_melhor_pos = [x.split("-")[0] for x in melhor_pos]
-        
-        replace_zona = {
-            'Ala': 'Lateral',
-            
-        }
-        
         zona_pos =  temp_melhor_pos      
         
     else:
