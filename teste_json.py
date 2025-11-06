@@ -63,6 +63,8 @@ for row in x_df.iloc[:].itertuples(index=False):
     print(f'or_pos_sec: {pos_sec}')
     print('-'*15, "\n")
     
+    
+    
     if len(pos_analise) == 1: # type: ignore
         
         melhor_pos = pos_analise
@@ -107,27 +109,12 @@ for row in x_df.iloc[:].itertuples(index=False):
         temp_melhor_pos = [re.sub(r'-.*','', x) for x in melhor_pos]
         zona_pos =  list(set(temp_melhor_pos))      
 
-                
-                
-                
-          
-          
-                
-        
-        
- 
     print(f'pos_analise: {pos_analise}')
     print(f'melhor_pos: {melhor_pos}')
     print(f'pos_sec: {pos_sec}')
     print(f'zona_pos: {zona_pos}')
     
     print('\n')
-
-
-
-
-
-
 
 
 # %%
