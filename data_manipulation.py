@@ -705,7 +705,7 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
     
     df['rtg_jg_ar'] = ((df['cab_g_p100'])/100)*0.70 + (df['cab_dec_p90']/df['cab_g_p90'])*0.20 + np.tanh(df['jg_ar_t_p90']/6)*0.10
     
-    df['rtg_des'] = ((df['des_c_p100'])/100)*0.60 + (df['des_dec_p90']/df['des_g_p90'])*0.30 + np.tanh(df['des_t_p90']/1)*0.10
+    df['rtg_des'] = ((df['des_c_p100'])/100)*0.70 + (df['des_dec_p90']/df['des_g_p90'])*0.20 + np.tanh(df['des_t_p90']/1)*0.10
     
     
     # df['rtg_des'] = ((((df['des_c_p100'])/100 + (np.log1p(df['des_dec_p90']) / np.log1p(df['des_g_p90'])).round(2)))).round(2)
@@ -719,6 +719,7 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
     df['rtg_jg_ar'] = (df['rtg_jg_ar']*df['coef']).round(2)
     df['rtg_duel'] = (df['rtg_duel']*df['coef']).round(2)
     df['rtg_des'] = (df['rtg_des']*df['coef']).round(2)
+    df['rtg_rec_bola'] = (df['poss_g_p90']/df['adef_t_p90']).round(2)
     df['rtg_adef'] = (df['rtg_adef']*df['coef']).round(2)
     
     p1 = 0.20
@@ -731,7 +732,7 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
         (((df['rtg_jg_ar']*p1) + 
           df['rtg_duel']*p2 + 
           (df['rtg_des'])*p3 + 
-          (df['poss_g_p90']/df['adef_t_p90'])*p4 + 
+          (df['rtg_rec_bola'])*p4 + 
           df['rtg_adef']*p5))).round(2)
     
     df['aval_def'] = df['aval_def'].replace([np.inf,-np.inf ], np.nan)
