@@ -111,8 +111,8 @@ def fm_create_dataframe(path:str) -> pd.DataFrame:
     'Nac':'nac',
     'Nome':'nome',
     'OCG':'grandes_chances',
-    'PD-JC/90':'pass_dec_p90',
-    'Passes Pr/90':'pass_prog_p90',
+    'PD-JC/90':'passe_dec_p90',
+    'Passes Pr/90':'passe_prog_p90',
     'Pens':'penaltis_batidos',
     'Pens M':'penaltis_conv',
     'Personalidade':'person',
@@ -564,10 +564,10 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
 #================ Criação do parâmetro de analise das qualidades de criação de jogadas =================================
     
     df['aval_cria'] = (
-        ((df['xA_p90'])/df['pass_dec_p90']*0.25)+
+        ((df['xA_p90'])/df['passe_dec_p90']*0.25)+
         df['ass_p90']*0.15+
         df['xA_p90']*0.30+
-        df['pass_dec_p90']*0.10+
+        df['passe_dec_p90']*0.10+
         df['grandes_chances_p90']*0.20).round(2)
     
     df['aval_cria'] = df['aval_cria'].replace([np.inf,-np.inf ], np.nan)
@@ -623,7 +623,7 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
     
     df['aof_p90'] = (
         df['ass_p90'] + 
-        df['pass_dec_p90'] + 
+        df['passe_dec_p90'] + 
         df['cruz_c_p90'] + 
         df['np_chutes_gol_p90'] + 
         df['npG_p90'] + 
@@ -631,7 +631,7 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
         df['fintas_p90']).round(2)
     
     
-    df['gc_per_aof'] = (df['pass_dec_p90']/df['aof_p90'].where(df['aof_p90'] != 0, np.nan)).round(2)
+    df['gc_per_aof'] = (df['passe_dec_p90']/df['aof_p90'].where(df['aof_p90'] != 0, np.nan)).round(2)
     df['npG_per_aof'] = (df['npG_p90']/df['aof_p90'].where(df['aof_p90'] != 0, np.nan)).round(2)
     df['ass_per_aof'] = (df['ass_p90']/df['aof_p90'].where(df['aof_p90'] != 0, np.nan)).round(2)
     
@@ -675,7 +675,7 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
     
     df['duel_g_p90'] = (df['des_g_p90'] + df['press_c_p90']).round(2)
     
-    df['rtg_duel'] = (df['duel_g_p90']/df['duel_t_p90']).round(2)
+    df['rtg_duel'] = (df['duel_g_p90']/df['duel_t_p90'])*0.70 + np.tanh(df['duel_t_p90']/10)*0.30
     
     df = df.copy()
 
@@ -696,20 +696,23 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
         df['press_c_p90']).round(2) 
     
     
-    df['rtg_adef'] = ((df['adef_c_p90']/df['adef_t_p90'])).round(2)
+    df['rtg_adef'] = ((df['adef_c_p90']/df['adef_t_p90'])*0.75) + (df['poss_g_p90']/df['adef_t_p90'])*0.15 + np.tanh(df['adef_t_p90']/20)*0.10
     
     
     df = df.copy()
     
 #=========================================== Criação do parâmetro de avaliação defensivo ===========================================    
     
-    df['rtg_jg_ar'] = ((df['cab_g_p100'])/100)*0.70 + (df['cab_dec_p90']/df['cab_g_p90'])*0.20 + np.tanh(df['jg_ar_t_p90']/6)*0.10
+    df['rtg_jg_ar'] = (((df['cab_g_p100'])/100)*0.70
+    + (df['cab_dec_p90']/df['cab_g_p90'])*0.20
+    + np.tanh(df['jg_ar_t_p90']/6)*0.10).round(2)
     
-    df['rtg_des'] = ((df['des_c_p100'])/100)*0.70 + (df['des_dec_p90']/df['des_g_p90'])*0.20 + np.tanh(df['des_t_p90']/1)*0.10
+    df['rtg_des'] = (((df['des_c_p100'])/100)*0.70 + 
+                     (df['des_dec_p90']/df['des_g_p90'])*0.20 + 
+                     np.tanh(df['des_t_p90']/1)*0.10).round(2)
     
-    
-    # df['rtg_des'] = ((((df['des_c_p100'])/100 + (np.log1p(df['des_dec_p90']) / np.log1p(df['des_g_p90'])).round(2)))).round(2)
-    # df['rtg_jg_ar'] = (((df['cab_g_p100'])/100 + (np.log1p(df['cab_dec_p90'])/np.log1p(df['cab_g_p90'])).round(2))).round(2)
+    df['rtg_rec_bola'] = ((df['poss_g_p90']/df['adef_t_p90'])*0.70 + (np.tanh(df['adef_t_p90'])/10)*0.30)
+ 
     
 #=============================================== Criação do parâmetro de avaliação defensivo Global =====================================    
     
@@ -719,14 +722,14 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
     df['rtg_jg_ar'] = (df['rtg_jg_ar']*df['coef']).round(2)
     df['rtg_duel'] = (df['rtg_duel']*df['coef']).round(2)
     df['rtg_des'] = (df['rtg_des']*df['coef']).round(2)
-    df['rtg_rec_bola'] = (df['poss_g_p90']/df['adef_t_p90']).round(2)
+    df['rtg_rec_bola'] = (df['rtg_rec_bola']*df['coef']).round(2)
     df['rtg_adef'] = (df['rtg_adef']*df['coef']).round(2)
     
-    p1 = 0.20
-    p2 = 0.15
-    p3 = 0.15
+    p1 = 0.25
+    p2 = 0.10
+    p3 = 0.10
     p4 = 0.25
-    p5 = 0.25
+    p5 = 0.30
     
     df['aval_def'] = (
         (((df['rtg_jg_ar']*p1) + 
