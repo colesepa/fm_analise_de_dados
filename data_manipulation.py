@@ -675,7 +675,7 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
     
     df['duel_g_p90'] = (df['des_g_p90'] + df['press_c_p90']).round(2)
     
-    df['rtg_duel'] = (df['duel_g_p90']/df['duel_t_p90'])*0.70 + np.tanh(df['duel_t_p90']/10)*0.30
+    df['rtg_duel'] = (df['duel_g_p90']/df['duel_t_p90'])*0.70 + np.tanh(df['duel_t_p90']/13)*0.30
     
     df = df.copy()
 
@@ -696,7 +696,7 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
         df['press_c_p90']).round(2) 
     
     
-    df['rtg_adef'] = ((df['adef_c_p90']/df['adef_t_p90'])*0.75) + (df['poss_g_p90']/df['adef_t_p90'])*0.15 + np.tanh(df['adef_t_p90']/20)*0.10
+    df['rtg_adef'] = ((df['adef_c_p90']/df['adef_t_p90'])*0.75) + (df['poss_g_p90']/df['adef_t_p90'])*0.15 + np.tanh(df['adef_t_p90']/21)*0.10
     
     
     df = df.copy()
@@ -705,13 +705,13 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
     
     df['rtg_jg_ar'] = (((df['cab_g_p100'])/100)*0.70
     + (df['cab_dec_p90']/df['cab_g_p90'])*0.20
-    + np.tanh(df['jg_ar_t_p90']/6)*0.10).round(2)
+    + np.tanh(df['jg_ar_t_p90']/7)*0.10).round(2)
     
     df['rtg_des'] = (((df['des_c_p100'])/100)*0.70 + 
                      (df['des_dec_p90']/df['des_g_p90'])*0.20 + 
-                     np.tanh(df['des_t_p90']/1)*0.10).round(2)
+                     np.tanh(df['des_t_p90']/3)*0.10).round(2)
     
-    df['rtg_rec_bola'] = ((df['poss_g_p90']/df['adef_t_p90'])*0.70 + (np.tanh(df['adef_t_p90'])/10)*0.30)
+    df['rtg_rec_bola'] = ((df['poss_g_p90']/df['adef_t_p90'])*0.70 + (np.tanh(df['adef_t_p90'])/21)*0.30)
  
     
 #=============================================== Criação do parâmetro de avaliação defensivo Global =====================================    

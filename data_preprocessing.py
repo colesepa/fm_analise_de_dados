@@ -28,6 +28,7 @@ def _initialize_dataframe(path:str) -> pd.DataFrame|None:
         dados = pd.read_html(path, encoding='utf-8', decimal='.')
         if dados:
             df = dados[0]
+            df.dropna(how='all', inplace=True)
             return df
         
     except Exception as e:
