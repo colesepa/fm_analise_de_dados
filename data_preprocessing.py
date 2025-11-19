@@ -3,6 +3,7 @@ import re
 import data_manipulation as dm
 import json
 import numpy as np
+from unidecode import unidecode
 
 # def _initialize_fm_dataframe(path:str|None = None) -> pd.DataFrame:
     
@@ -123,7 +124,7 @@ def _set_reputation(df:pd.DataFrame) -> pd.DataFrame:
     ligas_cadastradas = list(df_ligas['nome'].unique())
     
     
-    df['coef'] = df['divisao'].apply(lambda x: round(coef_map[x], 2) if x in ligas_cadastradas else np.nan)
+    df['coef'] = df['divisao'].apply(lambda x: round(coef_map[unidecode(x)], 2) if unidecode(x) in ligas_cadastradas else np.nan)
                                     
     return df
    

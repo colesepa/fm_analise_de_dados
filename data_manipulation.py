@@ -568,11 +568,12 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
         df['ass_p90']*0.15+
         df['xA_p90']*0.30+
         df['passe_dec_p90']*0.10+
-        df['grandes_chances_p90']*0.20).round(2)
+        df['grandes_chances_p90']*0.20)
     
     df['aval_cria'] = df['aval_cria'].replace([np.inf,-np.inf ], np.nan)
    
     df['aval_cria'] *= df['coef']
+    df['aval_cria'] = df['aval_cria'].round(2)
    
     df = df.copy()
     
@@ -622,18 +623,14 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
 #========================== Avaliações das ações ofensicas/criação ==========================================    
     
     df['aof_p90'] = (
-        df['ass_p90'] + 
+        df['passe_prog_p90'] + 
         df['passe_dec_p90'] + 
+        df['grandes_chances_p90'] +
         df['cruz_c_p90'] + 
-        df['np_chutes_gol_p90'] + 
-        df['npG_p90'] + 
-        df['cab_g_p90'] + 
+        df['np_chutes_p90'] + 
         df['fintas_p90']).round(2)
-    
-    
-    df['gc_per_aof'] = (df['passe_dec_p90']/df['aof_p90'].where(df['aof_p90'] != 0, np.nan)).round(2)
-    df['npG_per_aof'] = (df['npG_p90']/df['aof_p90'].where(df['aof_p90'] != 0, np.nan)).round(2)
-    df['ass_per_aof'] = (df['ass_p90']/df['aof_p90'].where(df['aof_p90'] != 0, np.nan)).round(2)
+
+    df['xA_p_aof'] = (df['xA_p90']/df['aof_p90'].where(df['aof_p90'] != 0, np.nan)).round(2)
     
 #====================== Exclusão de colunas desnecessárias ===========================================    
     

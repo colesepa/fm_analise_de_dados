@@ -484,6 +484,13 @@
             "coeficiente": 0.9671052631578947
         },
         {
+            "nome": "Brasileirao Serie C",
+            "pais": "Brasil",
+            "tier": 3,
+            "reputacao": 98,
+            "coeficiente": 0.9671052631578947
+        },
+        {
             "nome": "Prva liga Srbija",
             "pais": "Servia",
             "tier": 2,
