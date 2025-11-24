@@ -564,15 +564,11 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
 #================ Criação do parâmetro de analise das qualidades de criação de jogadas =================================
     
     df['aval_cria'] = (
-        ((df['xA_p90'])/df['passe_dec_p90']*0.25)+
-        df['ass_p90']*0.15+
-        df['xA_p90']*0.30+
-        df['passe_dec_p90']*0.10+
-        df['grandes_chances_p90']*0.20)
+        df['xA_p90']*0.70 + 
+        ((df['passe_dec_p90']*0.30 + 
+          df['grandes_chances_p90']*0.70))*0.30)*df['coef']
     
-    df['aval_cria'] = df['aval_cria'].replace([np.inf,-np.inf ], np.nan)
-   
-    df['aval_cria'] *= df['coef']
+  
     df['aval_cria'] = df['aval_cria'].round(2)
    
     df = df.copy()
@@ -625,13 +621,9 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
     df['aof_p90'] = (
         df['passe_prog_p90'] + 
         df['passe_dec_p90'] + 
-        df['grandes_chances_p90'] +
-        df['cruz_c_p90'] + 
         df['np_chutes_p90'] + 
         df['fintas_p90']).round(2)
 
-    df['xA_p_aof'] = (df['xA_p90']/df['aof_p90'].where(df['aof_p90'] != 0, np.nan)).round(2)
-    
 #====================== Exclusão de colunas desnecessárias ===========================================    
     
     df = df.drop(columns='penaltis_batidos', errors='ignore')
@@ -693,7 +685,10 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
         df['press_c_p90']).round(2) 
     
     
-    df['rtg_adef'] = ((df['adef_c_p90']/df['adef_t_p90'])*0.75) + (df['poss_g_p90']/df['adef_t_p90'])*0.15 + np.tanh(df['adef_t_p90']/21)*0.10
+    df['rtg_adef'] = (
+        ((df['adef_c_p90']/df['adef_t_p90'])*0.75) + 
+        (df['poss_g_p90']/df['adef_t_p90'])*0.15 + 
+        np.tanh(df['adef_t_p90']/21)*0.10)
     
     
     df = df.copy()
@@ -708,7 +703,9 @@ def fm_create_new_parameters(df:pd.DataFrame) -> pd.DataFrame:
                      (df['des_dec_p90']/df['des_g_p90'])*0.20 + 
                      np.tanh(df['des_t_p90']/3)*0.10).round(2)
     
-    df['rtg_rec_bola'] = ((df['poss_g_p90']/df['adef_t_p90'])*0.70 + (np.tanh(df['adef_t_p90'])/21)*0.30)
+    df['rtg_rec_bola'] = (
+        (df['poss_g_p90']/df['adef_t_p90'])*0.70 + 
+        (np.tanh(df['adef_t_p90'])/21)*0.30)
  
     
 #=============================================== Criação do parâmetro de avaliação defensivo Global =====================================    
