@@ -1,6 +1,12 @@
+from typing import List, Union, Sequence
+
+from PIL.ImageOps import contain
+from jedi.inference import value
 import pandas as pd
 import re
 import numpy as np
+from pandas.api.typing import NAType
+from stack_data.utils import R
 # from .files_utils import get_selected_files_names, get_file_extension, get_selected_files_paths
 
 from data_preprocessing import (
@@ -293,7 +299,7 @@ def fm_normalize_minutes_values(value:str|int) -> int:
     except ValueError as e:
         raise ValueError (f"Não foi possivel converter '{value}' para um inteiro.") from e
 
-def fm_normalize_wage_values(value:str|int) -> int|float:
+def fm_normalize_wage_values(value: Union[str, int, float]) -> int:
     """Remove espaços em branco do campo Salario. altém de transformalo  em int
     retirando os sufixos e convertendo de str.
 
@@ -318,21 +324,17 @@ def fm_normalize_wage_values(value:str|int) -> int|float:
         try:
             if value == 'N/D':
                 return int(0)
-
             else:
-                value = value.replace('€ p/s','')
-                value = value.replace('\xa0', '').replace(' ','')
-                value = int(value)   
-
+                value = re.sub(r'(€ p/s|\xa0| )', '', value)
                 return int(value)
 
         except ValueError as e:
             raise ValueError (f'Não foi possivel normarlizar o valor.') from e
 
     elif isinstance(value, int):
-        return int(value)
+        return value
 
-def fm_remove_percent_symbol_from_values(value:str) -> int|float:
+def fm_remove_percent_symbol_from_values(value:str|NAType|int) -> Union[int, float,str]:
     
     """_summary_
 
@@ -342,16 +344,16 @@ def fm_remove_percent_symbol_from_values(value:str) -> int|float:
     Returns:
         int: _description_
     """
-    if value is pd.NA or '-' in str(value):
-        return(0)
+    if isinstance(value, NAType) or '-' in str(value):
+        return 0
         
     else: 
-        if not isinstance(value, (int, float)):
+        if isinstance(value, str) and value.find('%'):
             value = value.replace('%', '')
-            return float(value)
+            return float(value) if bool(re.match(r'[0-9]+\.?[0-9]*', value)) else value
         
         else:
-            return value    
+            return value
       
 def fm_remove_percent_symbol_from_dataframe(df:pd.DataFrame) -> pd.DataFrame:
     
@@ -450,7 +452,7 @@ def fm_extract_positions_from_values(value: str) -> list:
         
     return list_position_return
 
-def fm_unabbreviate_numeric_values(abbreviateValue: str) -> str|int|list:
+def fm_unabbreviate_numeric_values(abbreviateValue:str) -> Sequence[Union[int,str]]:
     
     """_summary_
 
@@ -461,44 +463,34 @@ def fm_unabbreviate_numeric_values(abbreviateValue: str) -> str|int|list:
     import re
 
 
-    unabbreviate_numeric_values = []
+    unabbreviate_numeric_values: List[int] = []
 
-    pattern = r'([0-9]*\.?[0-9]*|[0-9]*)([mM]?)'
+    pattern = r'([0-9]+\.?[0-9]?)([mM]+)*'
     matches = re.findall(pattern, abbreviateValue)
 
-    for match in matches:
 
-        numeric_part = match[0]
-        abbreviation = match[1]
-
-        if numeric_part or numeric_part != '0':
-            
-            try:
+    if matches:
+        for match in matches:
+            numeric_part = match[0]
+            abbreviation = match[1]
+        
+            if numeric_part or numeric_part != '0':
                 value = float(numeric_part)
-                
+            
                 if abbreviation == 'm':
-                    # unabbreviate_numeric_values.append(str(int(value * 1000)))
-                    unabbreviate_numeric_values.append((int(value * 1000)))
-                    
+                    value = int(value*1_000)
+                    unabbreviate_numeric_values.append(value)
                 elif abbreviation == 'M':
-                    # unabbreviate_numeric_values.append(str(int(value * 1000000)))
-                    unabbreviate_numeric_values.append((int(value * 1000000)))
-                    
+                    value = int(value*1_000_000)
+                    unabbreviate_numeric_values.append(value)
                 elif not abbreviation:
-                    # unabbreviate_numeric_values.append(str(int(value)))
-                    unabbreviate_numeric_values.append((int(value)))
-
-            except ValueError:
-                pass
-        else:
-            value = 0
-            # unabbreviate_numeric_values.append(str(int(value)))
-            unabbreviate_numeric_values.append((int(value)))
-                
-    # unabbreviate_numeric_values = '-'.join(unabbreviate_numeric_values)
-    return unabbreviate_numeric_values
-
-def fm_normalize_estimated_values(value:str|int) -> str|int:
+                    unabbreviate_numeric_values.append(int(value))
+        return unabbreviate_numeric_values
+    
+    else:
+        return unabbreviate_numeric_values         
+                     
+def fm_normalize_estimated_values(value:str|int) -> Sequence[Union[int, str]]:
     """
     _summary_
 
@@ -506,26 +498,18 @@ def fm_normalize_estimated_values(value:str|int) -> str|int:
         _type_: _description_
 
     """
-    try:
-        value = str(value)
+    
+    value = str(value)
 
-        if 'Não' in value: 
-                value = 'NotSell'
+    if 'Não' in value: 
+            return 'NotSell'
 
-        elif "Des" in value:
-            value = '-'
+    elif "Des" in value:
+            return '-'
+    else:
+        return fm_unabbreviate_numeric_values(value)
 
-        else:
-            value = fm_unabbreviate_numeric_values(value)
-
-        return value
-
-    except Exception as e:
-        print(f'Erro: {e}')
-
-        return value
-
-def fm_split_max_min_estimated_values(value:str) -> pd.Series:
+def fm_split_max_min_estimated_values(value:Sequence[Union[int, str]]) -> pd.Series:
    
     if 'NotSell' in value or '-' in value:
         return pd.Series([value, value])
